@@ -31,3 +31,6 @@ Este repositorio constituye una exploración concisa y práctica de los patrones
 En este proyecto, el patrón Factory Method se ejemplifica mediante la generación dinámica de elementos en un entorno de mapa. Se define un `Creator` abstracto para la creación de elementos, con implementaciones especializadas como `CreatorB` para la instanciación de bombas y `CreatorBlind` para la creación de blindaje.
 
 ![Ejemplo de Implementación del Patrón Factory Method](pictures/factory-method-ex.png)
+
+### Diagrama de secuencia Crear Laberinto 2 Habitaciones con Paredes Bomba
+![Diagrama de secuencia](pictures/factory-method-seq.png)
