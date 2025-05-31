@@ -1,3 +1,5 @@
+from abc import ABC
+
 from patterns.elementomapa import ElementoMapa
 
 

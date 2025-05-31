@@ -1,3 +1,4 @@
+from patterns.bicho import Bicho, Agresivo, Perezoso, Sabio
 from patterns.bomba import Bomba
 from patterns.decorator import (
     PuertaConLlave,
@@ -6,9 +7,10 @@ from patterns.decorator import (
 )
 from patterns.habitacion import Habitacion
 from patterns.laberinto import Laberinto
+from patterns.mueble_empotrado import MuebleSimple, MuebleCompuesto
+from patterns.orientacion import *
 from patterns.pared import Pared
 from patterns.puerta import Puerta, PuertaBlindada
-from patterns.bicho import Bicho, Agresivo, Perezoso, Sabio
 
 
 class Juego:
@@ -257,3 +259,52 @@ class Juego:
         self.bichos.append(bicho)
         print(f"\nTotal de bichos en el juego: {len(self.bichos)}")
         print("\n=== FIN DE LA PRUEBA DE BICHOS ===\n")
+
+    def probar_composite_muebles(self):
+        """
+        Prueba el patrón Composite con la jerarquía de muebles.
+        """
+        print("\n=== Probando patrón Composite con muebles ===")
+
+        # Crear un armario principal (compuesto)
+        armario = MuebleCompuesto("Armario Principal", 200, 220, 60, orientacion=Norte())
+
+        # Crear muebles simples
+        estante_superior = MuebleSimple("Estante Superior", 180, 40, 50, orientacion=Norte())
+        cajonera = MuebleSimple("Cajonera", 80, 60, 40, orientacion=Sur())
+        perchero = MuebleSimple("Perchero", 100, 180, 30, orientacion=Este())
+
+        # Añadir muebles al armario
+        print("\nAñadiendo muebles al armario...")
+        armario.agregar_mueble(estante_superior)
+        armario.agregar_mueble(cajonera)
+        armario.agregar_mueble(perchero)
+
+        # Crear un cajón pequeño (no cabe en el armario por sus dimensiones)
+        cajon_pequeno = MuebleSimple("Cajón Pequeño", 35, 15, 30, orientacion=Norte())
+
+        # Intentar añadir un mueble que no cabe
+        print("\nIntentando añadir un mueble que no cabe...")
+        try:
+            armario.agregar_mueble(cajon_pequeno)
+        except ValueError as e:
+            print(f"Error: {e}")
+
+        # Mostrar la estructura del armario
+        print("\nEstructura del armario:")
+        armario.mostrar_estructura()
+
+        # Probar el método entrar()
+        print("\nProbando el método entrar() en los muebles:")
+        for mueble in [armario, estante_superior, cajonera, perchero]:
+            mueble.entrar()
+
+        # Probar cambio de orientación
+        print("\nCambiando orientación del estante superior:")
+        estante_superior.cambiar_orientacion(Oeste())
+
+        # Mostrar estructura final
+        print("\nEstructura final del armario:")
+        armario.mostrar_estructura()
+
+        print("\n=== Fin de la prueba de Composite con muebles ===\n")

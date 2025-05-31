@@ -75,7 +75,7 @@ entre ellos dinámicamente.
 ### Arquitectura:
 ![Diagrama de Estructura del Patrón Strategy](pictures/strategy.png)
 
-### Implementación Concreta:**
+### Implementación Concreta:
 El patrón Strategy se aplica para la implementación de diversos tipos de bombas como **Broma**, **Mina** y 
 **Destructiva**, también para distintas estrategias de modo el los bichos, cada una con un 
 comportamiento distintivo, siguiendo una arquitectura de diseño adaptable y extensible.
@@ -84,5 +84,32 @@ comportamiento distintivo, siguiendo una arquitectura de diseño adaptable y ext
 
 ### Diagrama de secuencia del método probar bichos
 ![Diagrama de secuencia](pictures/strategy-seq-probarbichos.png)
+
+
+## 🌳 Composite
+**Objetivo:** Permite tratar objetos individuales y composiciones de objetos de manera uniforme. 
+Facilita la construcción de estructuras de objetos jerárquicas y la manipulación coherente de sus componentes.
+
+### Aplicación Estratégica:
+- Cuando se necesita representar una estructura jerárquica de objetos con relaciones parte-todo.
+- Para permitir que los clientes interactúen con objetos individuales y compuestos de forma indistinta.
+- Para simplificar la gestión y manipulación de estructuras de datos complejas.
+
+### Arquitectura:
+![Diagrama de Estructura del Patrón Composite](pictures/composite.png)
+
+### Implementación Concreta:
+
+El patrón Composite se implementa mediante una jerarquía donde `ElementoMapa` es la interfaz común, 
+con `Contenedor` y `Hoja` como implementaciones. Los `MuebleCompuesto` pueden contener otros muebles, 
+mientras que `MuebleSimple` son hojas. Las orientaciones (`Norte`, `Sur`, `Este`, `Oeste`) 
+son Singletons para garantizar consistencia. Cada elemento tiene dimensiones y orientación, 
+permitiendo estructuras anidadas complejas. Los métodos como `entrar()` y `mostrar_estructura()` 
+funcionan tanto en elementos individuales como en composiciones, demostrando la transparencia del patrón.
+
+![Ejemplo de Implementación del Patrón Composite](pictures/composite-ex.png)
+
+### Diagrama de secuencia del Composite
+![Diagrama de secuencia](pictures/composite-seq.png)
 
 
