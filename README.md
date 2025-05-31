@@ -113,3 +113,32 @@ funcionan tanto en elementos individuales como en composiciones, demostrando la 
 ![Diagrama de secuencia](pictures/composite-seq.png)
 
 
+## 🧱 Builder
+**Objetivo:** Separa la construcción de un objeto complejo de su representación, de manera que el mismo 
+proceso de construcción puede crear diferentes representaciones.
+
+### Aplicación Estratégica:
+- Cuando el proceso de construcción de un objeto complejo es independiente de las partes que lo 
+componen y de cómo se ensamblan.
+- Para simplificar la creación de objetos complejos con múltiples configuraciones posibles, evitando 
+constructores con un gran número de parámetros.
+
+### Arquitectura:
+![Diagrama de Estructura del Patrón Builder](pictures/builder.png)
+
+### Implementación Concreta:
+
+El patrón Builder se implementa a través de dos componentes principales: el `Director` que orquesta la 
+construcción, el `LaberintoBuilder` que define la interfaz de construcción. 
+El Director interpreta un archivo JSON, crea habitaciones con `fabricar_habitacion()`, 
+las conecta mediante puertas con `fabricar_puerta()`, y añade bichos con características específicas. 
+Esta separación permite construir laberintos complejos de manera flexible y mantenible, facilitando 
+la adición de nuevos elementos sin modificar la lógica existente.
+
+![Ejemplo de Implementación del Patrón Builder](pictures/builder-ex.png)
+
+### Diagrama de secuencia del del juego
+![Diagrama de secuencia](pictures/builder-seq.png)
+
+
+

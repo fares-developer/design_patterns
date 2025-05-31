@@ -1,0 +1,117 @@
+{
+  "laberinto": [
+    {"tipo": "habitacion", "num": 1, "descripcion": "Entrada del laberinto"},
+    {"tipo": "habitacion", "num": 2, "descripcion": "Sala de los ecos"},
+    {"tipo": "habitacion", "num": 3, "descripcion": "Cámara de los susurros"},
+    {"tipo": "habitacion", "num": 4, "descripcion": "Pasillo de las sombras"},
+    {"tipo": "habitacion", "num": 5, "descripcion": "Sala del tesoro"},
+    {"tipo": "habitacion", "num": 6, "descripcion": "Cocina abandonada"},
+    {"tipo": "habitacion", "num": 7, "descripcion": "Biblioteca olvidada"},
+    {"tipo": "habitacion", "num": 8, "descripcion": "Sala del trono"},
+    {"tipo": "habitacion", "num": 9, "descripcion": "Cámara del dragón"},
+    {"tipo": "habitacion", "num": 10, "descripcion": "Salida del laberinto"}
+  ],
+  
+  "puertas": [
+    [1, "este", 2, "oeste"],
+    [1, "sur", 4, "norte"],
+    [2, "sur", 3, "norte"],
+    [2, "este", 5, "oeste"],
+    [3, "este", 6, "oeste"],
+    [4, "este", 7, "oeste"],
+    [5, "sur", 8, "norte"],
+    [6, "sur", 9, "norte"],
+    [7, "este", 8, "oeste"],
+    [8, "este", 9, "oeste"],
+    [9, "este", 10, "oeste"]
+  ],
+  
+  "bichos": [
+    {
+      "modo": "Guerrero",
+      "posicion": 2,
+      "vida": 15,
+      "ataque": 4,
+      "descripcion": "Un feroz guerrero con armadura pesada."
+    },
+    {
+      "modo": "Mago",
+      "posicion": 5,
+      "vida": 8,
+      "ataque": 6,
+      "descripcion": "Un poderoso mago que lanza hechizos devastadores."
+    },
+    {
+      "modo": "Ladrón",
+      "posicion": 7,
+      "vida": 10,
+      "ataque": 5,
+      "descripcion": "Un ladrón sigiloso que ataca por sorpresa."
+    },
+    {
+      "modo": "Troll",
+      "posicion": 3,
+      "vida": 20,
+      "ataque": 3,
+      "descripcion": "Un troll enorme y resistente pero lento."
+    },
+    {
+      "modo": "Dragón",
+      "posicion": 9,
+      "vida": 30,
+      "ataque": 8,
+      "descripcion": "Un temible dragón que custodia la salida."
+    },
+    {
+      "modo": "Esqueleto",
+      "posicion": 4,
+      "vida": 5,
+      "ataque": 2,
+      "descripcion": "Un esqueleto débil pero numeroso."
+    },
+    {
+      "modo": "Esqueleto",
+      "posicion": 4,
+      "vida": 5,
+      "ataque": 2,
+      "descripcion": "Un esqueleto débil pero numeroso."
+    },
+    {"modo": "Araña",
+      "posicion": 6,
+      "vida": 7,
+      "ataque": 3,
+      "descripcion": "Una araña venenosa que ataca desde las sombras."
+    },
+    {
+      "modo": "Fantasma",
+      "posicion": 8,
+      "vida": 12,
+      "ataque": 4,
+      "descripcion": "Un fantasma que puede atravesar paredes."
+    }
+  ],
+  
+  "objetos": [
+    {
+      "tipo": "poción",
+      "posicion": 1,
+      "efecto": "cura",
+      "valor": 10,
+      "descripcion": "Una poción que restaura 10 puntos de vida."
+    },
+    {
+      "tipo": "espada",
+      "posicion": 5,
+      "efecto": "daño",
+      "valor": 3,
+      "descripcion": "Una espada afilada que aumenta tu daño en 3."
+    },
+    {
+      "tipo": "escudo",
+      "posicion": 7,
+      "efecto": "defensa",
+      "valor": 2,
+      "descripcion": "Un escudo que reduce el daño recibido en 2."
+    }
+  ]
+}
