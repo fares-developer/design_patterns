@@ -34,3 +34,28 @@ En este proyecto, el patrón Factory Method se ejemplifica mediante la generaci�
 
 ### Diagrama de secuencia Crear Laberinto 2 Habitaciones con Paredes Bomba
 ![Diagrama de secuencia](pictures/factory-method-seq.png)
+
+
+## 🛠️ Decorator
+
+**Objetivo:** Permite añadir responsabilidades adicionales a un objeto de forma dinámica, sin alterar su estructura 
+fundamental. Ofrece una alternativa flexible y poderosa a la herencia para la extensión de funcionalidades.
+
+### Aplicación Estratégica:
+- Para la adición dinámica y transparente de funcionalidades a objetos individuales.
+- Para evitar la creación de jerarquías de herencia profundas y complejas con múltiples subclases.
+- Cuando la adición de comportamientos es opcional o debe variar en tiempo de ejecución.
+
+### Arquitectura:
+![Diagrama de Estructura del Patrón Factory Method](pictures/decorator.png)
+
+### Implementación Concreta
+En este ejemplo, el patrón Decorator se utiliza para enriquecer dinámicamente los elementos del mapa con 
+funcionalidades como "bomba" y "pintura" para pared y "Llave"/Sonido a puerta, extendiendo su comportamiento sin modificar sus clases base.
+
+![Ejemplo de Implementación del Patrón Factory Method](pictures/decorator-ex.png)
+
+### Diagrama de secuencia del decorator pintura aplicado una pared
+![Diagrama de secuencia](pictures/decorator_pintura_seq_.png)
+
+
