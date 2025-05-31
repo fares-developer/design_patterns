@@ -1,18 +1,20 @@
+from patterns.bomba import Bomba
+from patterns.decorator import (
+    PuertaConLlave,
+    PuertaConSonido,
+    Pintura
+)
 from patterns.habitacion import Habitacion
 from patterns.laberinto import Laberinto
 from patterns.pared import Pared
 from patterns.puerta import Puerta, PuertaBlindada
-from patterns.decorator import (
-    PuertaConLlave, 
-    PuertaConSonido, 
-    Bomba, 
-    Pintura
-)
+from patterns.bicho import Bicho, Agresivo, Perezoso, Sabio
 
 
 class Juego:
     def __init__(self):
         self.laberinto = Laberinto()
+        self.bichos = list()
 
     def iniciar_juego(self):
         # Lógica para iniciar el juego
@@ -168,3 +170,90 @@ class Juego:
             print(f"\nError en la demostración: {e}")
         
         print("\n=== FIN DE LA DEMOSTRACIÓN ===\n")
+
+    def agregar_bicho(self, bicho):
+        self.bichos.append(bicho)
+        
+    def probar_estrategias_bomba(self):
+        """
+        Prueba las diferentes estrategias de bombas implementadas.
+        Muestra cómo se comporta cada tipo de bomba al activarse.
+        """
+        print("\n=== PRUEBA DE ESTRATEGIAS DE BOMBA ===\n")
+        
+        # Crear una bomba de cada tipo
+        bomba_broma = Bomba(Pared())
+        bomba_mina = Bomba(Pared())
+        bomba_destructiva = Bomba(Pared())
+        
+        # Inicializar cada bomba con su estrategia correspondiente
+        bomba_broma.iniciar_broma()
+        bomba_mina.iniciar_mina()
+        bomba_destructiva.iniciar_destructiva()
+        
+        # Función auxiliar para probar una bomba
+        def probar_bomba(nombre, bomba):
+            print(f"\n--- Probando {nombre} ---")
+            print(f"Tipo: {bomba.tipo_bomba.__class__.__name__}")
+            print(f"Nivel de radiación: {bomba.nivel_radiacion}")
+            print(f"Nivel de destrucción: {bomba.nivel_destruccion}")
+            print("Activando bomba...")
+            bomba.activar()
+            bomba.tipo_bomba.explotar()
+            print("--- Fin de la prueba ---")
+        
+        # Probar cada tipo de bomba
+        probar_bomba("Bomba Broma", bomba_broma)
+        probar_bomba("Bomba Mina", bomba_mina)
+        probar_bomba("Bomba Destructiva", bomba_destructiva)
+        
+        print("\n=== FIN DE LA PRUEBA ===\n")
+    
+    def probar_bichos(self):
+        """Prueba la funcionalidad de los bichos con diferentes modos."""
+        print("\n=== PRUEBA DE BICHOS ===")
+        
+        # Crear instancias de los modos
+        modo_perezoso = Perezoso()
+        modo_agresivo = Agresivo()
+        modo_sabio = Sabio()
+        
+        # Crear un bicho en modo por defecto (Perezoso)
+        bicho = Bicho(posicion=(5, 5), modo=modo_perezoso)
+        print("\nBicho creado en modo Perezoso (por defecto):")
+        print(f"Vidas iniciales: {bicho.vidas}")
+        print(f"Ataque: {bicho.atacar()}")
+        
+        # Cambiar a modo agresivo
+        bicho.cambiar_modo(modo_agresivo)
+        print("\nCambiado a modo Agresivo:")
+        print(f"Vidas: {bicho.vidas}")
+        print(f"Ataque: {bicho.atacar()}")
+        
+        # Recibir daño
+        bicho.recibir_danyo(3)
+        print(f"\nDespués de recibir 3 de daño: {bicho.vidas} vidas")
+        
+        # Cambiar a modo sabio (más vidas)
+        bicho.cambiar_modo(modo_sabio)
+        print("\nCambiado a modo Sabio (más vidas):")
+        print(f"Vidas: {bicho.vidas}")
+        
+        # Recibir daño letal
+        print("\nRecibiendo daño letal...")
+        bicho.recibir_danyo(100)
+        print(f"Vidas: {bicho.vidas}")
+        print(f"¿Está vivo? {bicho.esta_vivo()}")
+        print(f"Intento de ataque: {bicho.atacar()}")
+        print(f"Intento de movimiento: {bicho.moverse()}")
+        
+        # Volver al modo perezoso para probar otro cambio
+        bicho.cambiar_modo(modo_perezoso)
+        print("\nCambiado a modo Perezoso después de morir:")
+        print(f"Vidas: {bicho.vidas}")
+        print(f"¿Está vivo? {bicho.esta_vivo()}")
+        
+        # Agregar el bicho a la lista de bichos del juego
+        self.bichos.append(bicho)
+        print(f"\nTotal de bichos en el juego: {len(self.bichos)}")
+        print("\n=== FIN DE LA PRUEBA DE BICHOS ===\n")

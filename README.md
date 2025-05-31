@@ -28,7 +28,10 @@ Este repositorio constituye una exploración concisa y práctica de los patrones
 ![Diagrama de Estructura del Patrón Factory Method](pictures/factory-method.png)
 
 ### Implementación Concreta:
-En este proyecto, el patrón Factory Method se ejemplifica mediante la generación dinámica de elementos en un entorno de mapa. Se define un `Creator` abstracto para la creación de elementos, con implementaciones especializadas como `CreatorB` para la instanciación de bombas y `CreatorBlind` para la creación de blindaje.
+En este proyecto, el patrón Factory Method se ejemplifica mediante la generación dinámica de elementos en un entorno 
+de mapa. Se define un `Creator` abstracto para la creación de elementos, con implementaciones especializadas 
+como `CreatorB` para la instanciación de bombas en las paredes y `CreatorBlind` para la creación de blindaje
+en las puertas del laberinto..
 
 ![Ejemplo de Implementación del Patrón Factory Method](pictures/factory-method-ex.png)
 
@@ -57,5 +60,29 @@ funcionalidades como "bomba" y "pintura" para pared y "Llave"/Sonido a puerta, e
 
 ### Diagrama de secuencia del decorator pintura aplicado una pared
 ![Diagrama de secuencia](pictures/decorator_pintura_seq_.png)
+
+
+## ⚙️ Strategy
+**Objetivo:** Define una familia de algoritmos, los encapsula como objetos y los hace intercambiables 
+en tiempo de ejecución. Esto permite la variación del comportamiento de un objeto independientemente de su tipo.
+
+### Aplicación Estratégica:
+- Cuando existen múltiples algoritmos para una tarea específica y se requiere la capacidad de alternar 
+entre ellos dinámicamente.
+- Para mitigar la proliferación de estructuras condicionales complejas (`if-else`) dentro de una clase.
+- Para encapsular algoritmos individuales, fomentando su reutilización y mantenibilidad.
+
+### Arquitectura:
+![Diagrama de Estructura del Patrón Strategy](pictures/strategy.png)
+
+### Implementación Concreta:**
+El patrón Strategy se aplica para la implementación de diversos tipos de bombas como **Broma**, **Mina** y 
+**Destructiva**, también para distintas estrategias de modo el los bichos, cada una con un 
+comportamiento distintivo, siguiendo una arquitectura de diseño adaptable y extensible.
+
+![Ejemplo de Implementación del Patrón Strategy](pictures/strategy-ex.png)
+
+### Diagrama de secuencia del método probar bichos
+![Diagrama de secuencia](pictures/strategy-seq-probarbichos.png)
 
 

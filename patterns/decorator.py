@@ -9,27 +9,6 @@ class DecoratorPared(ElementoMapa):
         self.pared = pared
 
 
-class Bomba(DecoratorPared):
-    """Decorador que convierte una pared en una bomba que se puede activar/desactivar."""
-    
-    def __init__(self, pared):
-        super().__init__(pared)
-        self.activa = False  # Atributo propio del decorador
-
-    def activar(self):
-        """Activa la bomba."""
-        self.activa = True
-        print("Bomba activada")
-        print("Explotará en 5 segundos")
-        return self.pared
-
-    def desactivar(self):
-        """Desactiva la bomba."""
-        self.activa = False
-        print("Bomba desactivada")
-        return self.pared
-
-
 class Pintura(DecoratorPared):
     """Decorador que añade una capa de pintura a una pared."""
     
