@@ -14,7 +14,7 @@ def main():
     ruta_json = os.path.join(
         os.path.dirname(os.path.abspath(__file__)),
         'utils',
-        'laberinto_dificil.json'  # Cambia este nombre por el archivo JSON que desees cargar
+        'laberinto_facil.json'  # Cambia este nombre por el archivo JSON que desees cargar
     )
     
     # Verificar que el archivo exista
