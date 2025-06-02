@@ -1,23 +1,27 @@
 
-import sys
 import os
+from pathlib import Path
 
 # Añadir el directorio raíz al path para que los imports funcionen
+import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from patterns.director import Director
 
 def main():
-    if len(sys.argv) != 2:
-        print("Uso: python main.py <ruta_al_archivo_json>")
-        print("Ejemplo: python main.py utils/lab4Hab.json")
+    
+    # Ruta al archivo JSON del laberinto
+    ruta_json = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        'utils',
+        'laberinto_dificil.json'  # Cambia este nombre por el archivo JSON que desees cargar
+    )
+    
+    # Verificar que el archivo exista
+    if not os.path.exists(ruta_json):
+        print(f"Error: No se encontró el archivo {ruta_json}")
+        print("Asegúrate de que el archivo existe en la ruta especificada.")
         sys.exit(1)
-    
-    ruta_json = sys.argv[1]
-    
-    # Asegurarse de que la ruta sea absoluta
-    if not os.path.isabs(ruta_json):
-        ruta_json = os.path.join(os.path.dirname(os.path.abspath(__file__)), ruta_json)
     
     try:
         director = Director()

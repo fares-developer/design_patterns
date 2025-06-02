@@ -120,8 +120,8 @@ proceso de construcción puede crear diferentes representaciones.
 ### Aplicación Estratégica:
 - Cuando el proceso de construcción de un objeto complejo es independiente de las partes que lo 
 componen y de cómo se ensamblan.
-- Para simplificar la creación de objetos complejos con múltiples configuraciones posibles, evitando 
-constructores con un gran número de parámetros.
+- Para simplificar la creación de objetos complejos con múltiples configuraciones posibles,
+evitando constructores con un gran número de parámetros.
 
 ### Arquitectura:
 ![Diagrama de Estructura del Patrón Builder](pictures/builder.png)
@@ -139,6 +139,20 @@ la adición de nuevos elementos sin modificar la lógica existente.
 
 ### Diagrama de secuencia del del juego
 ![Diagrama de secuencia](pictures/builder-seq.png)
+
+
+## Funcionalidad nueva
+1. Blindaje para las puertas en el factory method
+2. Decorador pared(bomba y pintura) y decorador puerta(puerta con clave, puerta con sonido)
+3. Tipo de Bomba(Mina, broma, destructiva) con el patrón strategy
+4. Tipo de muebe(simple, compuesto, empotrado) con el patrón composite
+5. El personaje sólo se puede mover en una de las orientaciones a la vez.
+6. Para ganar tiene que llegar al final del laberinto con la llave.
+7. Hay tipos de objetos que puede recoger para aumentar el daño de los bichos y la salud.
+8. Una vez dentro de una habitación no puede salir de ella hasta eliminar a los bichos.
+
+## Diagrama de clases del proyecto
+![Diagrama de clases](pictures/diagrama_clases.svg)
 
 
 

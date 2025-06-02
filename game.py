@@ -14,12 +14,28 @@ from patterns.puerta import Puerta, PuertaBlindada
 
 
 class Juego:
+
+
     def __init__(self):
         self.laberinto = Laberinto()
         self.bichos = list()
         self.jugador_vivo = True
         self.juego_terminado = False
         self.motivo_fin_juego = ""
+        self.inventario = []
+        self.efectos_activos = {}
+        self.estadisticas = {
+            'ataque': 0,
+            'defensa': 0,
+            'velocidad': 0
+        }
+        self.jugador = {
+            'vida_actual': 50,
+            'vida_maxima': 50,
+            'ataque_base': 8,
+            'defensa': 3,
+            'inventario': []
+        }
 
     def verificar_estado_juego(self):
         """
@@ -29,54 +45,137 @@ class Juego:
             bool: True si el juego debe continuar, False si ha terminado.
         """
         # Verificar si el jugador ha muerto
-        if not self.jugador_vivo:
+        if not self.jugador_vivo or self.jugador['vida_actual'] <= 0:
+            self.jugador_vivo = False
             self.juego_terminado = True
             self.motivo_fin_juego = "¡Has muerto!"
             return False
         
-        # Verificar si hay bichos en la habitación actual
-        if hasattr(self, 'habitacion_actual') and hasattr(self, 'bichos'):
-            bichos_en_habitacion = [
-                b for b in self.bichos 
-                if b.get('vivo', False) and b.get('habitacion', None) == self.habitacion_actual
-            ]
-            
-            # Si hay bichos vivos en la habitación, el jugador pierde
-            if bichos_en_habitacion:
-                print("\n¡Hay bichos en esta habitación!")
-                self.jugador_vivo = False
-                self.juego_terminado = True
-                self.motivo_fin_juego = "¡Has muerto por culpa de los bichos!"
-                return False
-        
         # Verificar si el jugador ha ganado (si está en la habitación de salida)
         if hasattr(self, 'habitacion_actual') and hasattr(self.habitacion_actual, 'es_salida') and self.habitacion_actual.es_salida:
-            # Verificar que no haya bichos vivos en el laberinto
+            # Verificar si hay bichos vivos en el laberinto
             bichos_vivos = [b for b in getattr(self, 'bichos', []) if b.get('vivo', False)]
-            if not bichos_vivos:
+            if not bichos_vivos or (hasattr(self, 'tiene_llave') and self.tiene_llave):
                 self.juego_terminado = True
-                self.motivo_fin_juego = "¡Felicidades! Has encontrado la salida y vencido a todos los bichos."
+                if not bichos_vivos:
+                    self.motivo_fin_juego = "¡Felicidades! Has vencido a todos los bichos y encontrado la salida. ¡Victoria total!"
+                else:
+                    self.motivo_fin_juego = "¡Felicidades! Has encontrado la salida. Los bichos restantes han quedado atrapados en el laberinto."
                 return False
             else:
-                print(f"\nAún quedan {len(bichos_vivos)} bichos vivos en el laberinto. ¡Debes eliminarlos a todos!")
+                print("\nLa puerta de salida está cerrada con llave. Busca la llave en el laberinto.")
                 
         return True
+        
+    def aplicar_efecto_objeto(self, objeto):
+        """Aplica el efecto de un objeto al jugador."""
+        tipo = objeto.get('tipo')
+        efecto = objeto.get('efecto')
+        valor = objeto.get('valor', 0)
+        
+        if efecto == 'cura':
+            self.jugador['vida_actual'] = min(self.jugador['vida_maxima'], self.jugador['vida_actual'] + valor)
+            print(f"¡Recuperaste {valor} puntos de vida!")
+            print(f"Vida actual: {self.jugador['vida_actual']}/{self.jugador['vida_maxima']}")
+            
+        elif efecto == 'aumenta_ataque':
+            self.estadisticas['ataque'] += valor
+            self.efectos_activos['aumenta_ataque'] = valor
+            print(f"¡Tu ataque ha aumentado en {valor} puntos!")
+            
+        elif efecto == 'aumenta_defensa':
+            self.estadisticas['defensa'] += valor
+            self.efectos_activos['aumenta_defensa'] = valor
+            print(f"¡Tu defensa ha aumentado en {valor} puntos!")
+            
+        elif efecto == 'reduce_daño':
+            self.estadisticas['defensa'] += valor
+            self.efectos_activos['reduce_daño'] = valor
+            print(f"¡El daño que recibes se reduce en {valor} puntos!")
+            
+        elif efecto == 'aumenta_velocidad':
+            self.estadisticas['velocidad'] += valor
+            self.efectos_activos['aumenta_velocidad'] = valor
+            print(f"¡Tu velocidad ha aumentado en {valor} puntos!")
+            
+        elif efecto == 'abre_puerta':
+            self.tiene_llave = True
+            print("¡Has encontrado una llave que abre la puerta de salida!")
+            
+        elif efecto == 'veneno':
+            # Aplicar veneno a los bichos en la habitación actual
+            bichos_en_habitacion = [b for b in self.bichos 
+                                 if b.get('vivo', False) and b.get('habitacion', None) == self.habitacion_actual]
+            for bicho in bichos_en_habitacion:
+                bicho['vida'] = max(1, bicho['vida'] - valor)
+                print(f"El bicho {bicho['modo']} ha sido envenenado y ha perdido {valor} puntos de vida.")
+    
+    def atacar_bicho(self, bicho):
+        """Realiza un ataque del jugador a un bicho."""
+        # Calcular daño base + bonificación de ataque - defensa del bicho
+        dano_base = self.jugador.get('ataque_base', 5) + self.estadisticas.get('ataque', 0)
+        defensa_bicho = bicho.get('defensa', 0)
+        dano = max(1, dano_base - defensa_bicho)
+        
+        # Aplicar daño al bicho
+        bicho['vida'] = max(0, bicho['vida'] - dano)
+        print(f"¡Has infligido {dano} de daño al bicho {bicho['modo']}!")
+        
+        # Verificar si el bicho ha muerto
+        if bicho['vida'] <= 0:
+            bicho['vivo'] = False
+            print(f"¡Has derrotado al bicho {bicho['modo']}!")
+            # Verificar si todos los bichos están muertos
+            bichos_vivos = [b for b in self.bichos if b.get('vivo', False)]
+            if not bichos_vivos:
+                print("¡Has derrotado a todos los bichos! Ahora busca la salida.")
+            return True
+        else:
+            print(f"El bicho {bicho['modo']} tiene {bicho['vida']} puntos de vida restantes.")
+            return False
+    
+    def recibir_ataque_bicho(self, bicho):
+        """El jugador recibe un ataque de un bicho."""
+        # Calcular daño del bicho - defensa del jugador
+        dano_bicho = max(1, bicho.get('ataque', 2) - self.jugador.get('defensa', 0) - self.estadisticas.get('defensa', 0))
+        self.jugador['vida_actual'] = max(0, self.jugador['vida_actual'] - dano_bicho)
+        print(f"El bicho {bicho['modo']} te ha hecho {dano_bicho} puntos de daño.")
+        
+        # Verificar si el jugador ha muerto
+        if self.jugador['vida_actual'] <= 0:
+            self.jugador_vivo = False
+            print("¡Has muerto!")
+            return False
+        else:
+            print(f"Te quedan {self.jugador['vida_actual']}/{self.jugador['vida_maxima']} puntos de vida.")
+            return True
 
     def iniciar_juego(self):
         """
         Inicia el bucle principal del juego con comandos de movimiento y combate.
         """
         print("¡Bienvenido al Laberinto!")
-        print("Tu objetivo es encontrar la salida (habitación marcada como salida) después de eliminar a todos los bichos.")
+        print("Tu objetivo es encontrar la salida (habitación marcada como salida).")
         print("\nComandos disponibles:")
         print("- Movimiento: norte, sur, este, oeste")
         print("- Combate: atacar <bicho> (ej: atacar 1)")
+        print("- Recolectar: recoger <objeto> (ej: recoger 1)")
         print("- Otros: ver, salir")
         
         # Inicializar habitación actual (tomamos la primera habitación del diccionario)
         if self.laberinto.habitaciones:
             primera_habitacion_num = next(iter(self.laberinto.habitaciones))
             self.habitacion_actual = self.laberinto.habitaciones[primera_habitacion_num]
+            
+            # Inicializar jugador con estadísticas base
+            if not hasattr(self, 'jugador'):
+                self.jugador = {
+                    'vida_actual': 50,
+                    'vida_maxima': 50,
+                    'ataque_base': 8,
+                    'defensa': 3,
+                    'inventario': []
+                }
         else:
             print("Error: No hay habitaciones en el laberinto.")
             return
@@ -99,6 +198,18 @@ class Juego:
                 print("\nSalidas disponibles: " + ", ".join(salidas))
             else:
                 print("\n¡No hay salidas visibles!")
+            
+            # Mostrar objetos en la habitación
+            if hasattr(self.habitacion_actual, 'objetos') and self.habitacion_actual.objetos:
+                print("\nObjetos en esta habitación:")
+                for i, obj in enumerate(self.habitacion_actual.objetos, 1):
+                    print(f"  {i}. {obj.get('descripcion')}")
+                # Guardar los objetos en el juego para acceder a ellos fácilmente
+                self.objetos = self.habitacion_actual.objetos.copy()
+            else:
+                # Limpiar la lista de objetos si no hay en la habitación
+                if hasattr(self, 'objetos'):
+                    del self.objetos
             
             # Mostrar bichos en la habitación
             bichos_en_habitacion = []
@@ -148,41 +259,88 @@ class Juego:
                         indice = int(partes[1]) - 1
                         if 0 <= indice < len(bichos_en_habitacion):
                             bicho = bichos_en_habitacion[indice]
-                            # Daño aleatorio entre 1 y 5
-                            import random
-                            dano = random.randint(1, 5)
-                            bicho['vida'] = max(0, bicho['vida'] - dano)
                             
-                            print(f"¡Has infligido {dano} de daño al bicho {indice+1}!")
+                            # Turno del jugador
+                            bicho_derrotado = self.atacar_bicho(bicho)
                             
-                            if bicho['vida'] <= 0:
-                                bicho['vivo'] = False
-                                print(f"¡Has derrotado al bicho {indice+1}!")
-                                # Verificar si todos los bichos están muertos
-                                bichos_vivos = [b for b in self.bichos if b.get('vivo', False)]
-                                if not bichos_vivos:
-                                    print("¡Has derrotado a todos los bichos! Ahora busca la salida.")
-                            else:
-                                # El bicho contraataca
-                                print(f"El bicho te ataca y te quita {bicho['ataque']} de vida.")
-                                # Aquí podrías implementar un sistema de vida del jugador
-                                # Por ahora, el jugador muere al primer ataque
-                                self.jugador_vivo = False
+                            # Si el bicho sigue vivo, contraataca
+                            if not bicho_derrotado and bicho.get('vivo', False):
+                                self.recibir_ataque_bicho(bicho)
+                                
+                            # Actualizar la lista de bichos en la habitación
+                            bichos_en_habitacion = [b for b in self.bichos 
+                                                 if b.get('vivo', False) and b.get('habitacion', None) == self.habitacion_actual]
+                            
+                            # Si no quedan bichos, puedes moverte
+                            if not bichos_en_habitacion:
+                                print("¡No hay más bichos en esta habitación! Puedes continuar tu camino.")
+                                
                         else:
                             print("Número de bicho inválido.")
-                    except ValueError:
+                    except (ValueError, IndexError):
                         print("Por favor, especifica un número de bicho válido.")
+                
+                # Comando para recoger objetos
+                elif comando == "recoger" and len(partes) > 1:
+                    if not hasattr(self, 'objetos') or not self.objetos:
+                        print("No hay objetos en esta habitación.")
+                        continue
+                        
+                    try:
+                        indice = int(partes[1]) - 1
+                        if 0 <= indice < len(self.objetos):
+                            objeto = self.objetos[indice]
+                            self.aplicar_efecto_objeto(objeto)
+                            
+                            # Si es un objeto que se puede guardar, lo añadimos al inventario
+                            if objeto['tipo'] not in ['poción', 'veneno']:  # Las pociones se usan al recogerlas
+                                self.inventario.append(objeto)
+                                print(f"Has guardado en tu inventario: {objeto.get('descripcion')}")
+                            
+                            # Eliminar el objeto de la habitación
+                            if hasattr(self.habitacion_actual, 'objetos'):
+                                if objeto in self.habitacion_actual.objetos:
+                                    self.habitacion_actual.objetos.remove(objeto)
+                                    # Actualizar la lista de objetos mostrados
+                                    if hasattr(self, 'objetos'):
+                                        self.objetos = self.habitacion_actual.objetos.copy()
+                        else:
+                            print("Número de objeto inválido.")
+                    except (ValueError, IndexError):
+                        print("Por favor, especifica un número de objeto válido.")
                 
                 # Comando para ver información
                 elif comando == "ver":
                     print("\n--- Estado del juego ---")
                     print(f"Estás en la habitación {getattr(self.habitacion_actual, 'num', 'desconocida')}")
-                    bichos_vivos = len([b for b in getattr(self, 'bichos', []) if b.get('vivo', False)])
-                    print(f"Bichos restantes: {bichos_vivos}")
+                    print(f"Vida: {self.jugador['vida_actual']}/{self.jugador['vida_maxima']}")
+                    
+                    # Mostrar estadísticas
+                    if any(self.estadisticas.values()):
+                        print("\nEstadísticas mejoradas:")
+                        for stat, valor in self.estadisticas.items():
+                            if valor > 0:
+                                print(f"- {stat.capitalize()}: +{valor}")
+                    
+                    # Mostrar inventario
+                    if hasattr(self, 'inventario') and self.inventario:
+                        print("\nInventario:")
+                        for i, obj in enumerate(self.inventario, 1):
+                            print(f"  {i}. {obj.get('descripcion')}")
+                    
+                    # Mostrar bichos restantes
+                    bichos_vivos = [b for b in getattr(self, 'bichos', []) if b.get('vivo', False)]
+                    print(f"\nBichos restantes en el laberinto: {len(bichos_vivos)}")
+                    
+                    # Mostrar si estás en la salida
                     if hasattr(self.habitacion_actual, 'es_salida') and self.habitacion_actual.es_salida:
-                        print("¡Estás en la habitación de salida!")
-                        if bichos_vivos == 0:
+                        print("\n¡Estás en la habitación de salida!")
+                        if hasattr(self, 'tiene_llave') and self.tiene_llave:
+                            print("Tienes la llave para salir. ¡Puedes ganar el juego!")
+                        elif not bichos_vivos:
                             print("¡Ve a la salida para ganar!")
+                        else:
+                            print("Necesitas la llave o derrotar a todos los bichos para ganar.")
                 
                 # Comando para salir del juego
                 elif comando == "salir":

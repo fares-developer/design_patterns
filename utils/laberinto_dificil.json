@@ -1,0 +1,151 @@
+{
+  "laberinto": [
+    {"tipo": "habitacion", "num": 1, "descripcion": "Entrada del laberinto. Las paredes están cubiertas de musgo y el aire es frío."},
+    {"tipo": "habitacion", "num": 2, "descripcion": "Una habitación circular con marcas de garras en las paredes."},
+    {"tipo": "habitacion", "num": 3, "descripcion": "Un pasillo estrecho con un olor a humedad. El techo gotea."},
+    {"tipo": "habitacion", "num": 4, "descripcion": "Una cámara con columnas rotas. El suelo está cubierto de escombros."},
+    {"tipo": "habitacion", "num": 5, "descripcion": "Una sala con estanterías vacías. Algo se mueve en las sombras."},
+    {"tipo": "habitacion", "num": 6, "descripcion": "Un puente sobre un abismo. El viento silba entre las grietas."},
+    {"tipo": "habitacion", "num": 7, "descripcion": "Un jardín muerto con árboles retorcidos. El aire es espeso."},
+    {"tipo": "habitacion", "num": 8, "descripcion": "Una biblioteca abandonada. Los libros están podridos."},
+    {"tipo": "habitacion", "num": 9, "descripcion": "Una cámara con un altar antiguo. El aire vibra con energía."},
+    {"tipo": "habitacion", "num": 10, "es_salida": true, "descripcion": "La salida del laberinto. Una luz brillante inunda la habitación."},
+    {"tipo": "habitacion", "num": 11, "descripcion": "Un laboratorio abandonado. Frascos rotos cubren el suelo."},
+    {"tipo": "habitacion", "num": 12, "descripcion": "Un vivero de criaturas. Jaulas rotas cuelgan del techo."}
+  ],
+  
+  "puertas": [
+    [1, "Sur", 2, "Norte"],
+    [2, "Este", 3, "Oeste"],
+    [3, "Sur", 5, "Norte"],
+    [5, "Sur", 9, "Norte"],
+    [9, "Sur", 10, "Norte"],
+    
+
+    [2, "Sur", 4, "Norte"],
+    [4, "Sur", 7, "Norte"],
+    [7, "Sur", 10, "Norte"],
+    
+
+    [7, "Este", 8, "Oeste"],
+    [9, "Oeste", 11, "Este"],
+    [11, "Sur", 12, "Norte"]
+  ],
+  
+  "bichos": [
+
+    {"modo": "Agresivo", "posicion": 1, "vida": 25, "ataque": 6, "defensa": 2, "descripcion": "Un guerrero esqueleto con una espada oxidada."},
+    {"modo": "Perezoso", "posicion": 1, "vida": 20, "ataque": 4, "defensa": 1, "descripcion": "Un esqueleto arquero que lanza flechas desde la distancia."},
+    
+
+    {"modo": "Agresivo", "posicion": 2, "vida": 30, "ataque": 7, "defensa": 3, "descripcion": "Un orco con un hacha ensangrentada."},
+    {"modo": "Agresivo", "posicion": 2, "vida": 25, "ataque": 6, "defensa": 2, "descripcion": "Un orco lanzador de hachas."},
+    
+
+    {"modo": "Sabio", "posicion": 3, "vida": 35, "ataque": 8, "defensa": 2, "descripcion": "Un hechicero oscuro que lanza hechizos de oscuridad."},
+    {"modo": "Perezoso", "posicion": 3, "vida": 20, "ataque": 5, "defensa": 1, "descripcion": "Un acólito que apoya al hechicero."},
+    
+
+    {"modo": "Agresivo", "posicion": 4, "vida": 40, "ataque": 9, "defensa": 4, "descripcion": "Un caballero no muerto con armadura pesada."},
+    {"modo": "Agresivo", "posicion": 4, "vida": 30, "ataque": 7, "defensa": 3, "descripcion": "Un guerrero espectral que se desliza por las sombras."},
+    
+
+    {"modo": "Agresivo", "posicion": 5, "vida": 50, "ataque": 10, "defensa": 5, "descripcion": "Un minotauro con un hacha gigante."},
+    {"modo": "Agresivo", "posicion": 5, "vida": 40, "ataque": 8, "defensa": 4, "descripcion": "Un ogro que golpea con un garrote con pinchos."},
+    
+
+    {"modo": "Sabio", "posicion": 6, "vida": 45, "ataque": 12, "defensa": 3, "descripcion": "Un archimago que domina los elementos."},
+    {"modo": "Perezoso", "posicion": 6, "vida": 30, "ataque": 6, "defensa": 2, "descripcion": "Un aprendiz de mago que lanza hechizos de apoyo."},
+    
+
+    {"modo": "Agresivo", "posicion": 7, "vida": 60, "ataque": 15, "defensa": 6, "descripcion": "El guardián del laberinto, un demonio menor."},
+    {"modo": "Agresivo", "posicion": 7, "vida": 50, "ataque": 12, "defensa": 5, "descripcion": "Un diablillo que apoya al guardián con ataques rápidos."},
+    
+
+    {"modo": "Agresivo", "posicion": 8, "vida": 40, "ataque": 10, "defensa": 4, "descripcion": "Un nigromante que revive a los caídos."},
+    {"modo": "Perezoso", "posicion": 8, "vida": 25, "ataque": 7, "defensa": 2, "descripcion": "Un esqueleto reanimado por el nigromante."},
+    
+
+    {"modo": "Agresivo", "posicion": 9, "vida": 70, "ataque": 18, "defensa": 8, "descripcion": "El señor oscuro, jefe final del laberinto."},
+    {"modo": "Agresivo", "posicion": 9, "vida": 50, "ataque": 12, "defensa": 5, "descripcion": "Un caballero de la muerte, lugarteniente del señor oscuro."},
+    
+
+    {"modo": "Agresivo", "posicion": 11, "vida": 30, "ataque": 8, "defensa": 3, "descripcion": "Un cazador de tesoros caído en la oscuridad."},
+    {"modo": "Perezoso", "posicion": 11, "vida": 25, "ataque": 6, "defensa": 2, "descripcion": "Un ladrón que intenta robar tu botín."},
+    
+
+    {"modo": "Agresivo", "posicion": 12, "vida": 35, "ataque": 9, "defensa": 4, "descripcion": "Un asesino que acecha en las sombras."},
+    {"modo": "Agresivo", "posicion": 12, "vida": 30, "ataque": 8, "defensa": 3, "descripcion": "Un mercenario contratado para detenerte."}
+  ],
+  
+  "objetos": [
+
+    {
+      "tipo": "poción",
+      "posicion": 1,
+      "efecto": "cura",
+      "valor": 30,
+      "descripcion": "Poción de curación mayor. Restaura 30 puntos de vida."
+    },
+    {
+      "tipo": "espada",
+      "posicion": 3,
+      "efecto": "aumenta_ataque",
+      "valor": 8,
+      "descripcion": "Espada del abismo. Aumenta tu ataque en 8 puntos."
+    },
+    {
+      "tipo": "llave",
+      "posicion": 5,
+      "efecto": "abre_puerta",
+      "descripcion": "Llave maestra. Abre la puerta de salida.",
+      "es_requerida": true
+    },
+    
+
+    {
+      "tipo": "armadura",
+      "posicion": 4,
+      "efecto": "aumenta_defensa",
+      "valor": 6,
+      "descripcion": "Armadura de placas del dragón. Aumenta tu defensa en 6 puntos."
+    },
+    {
+      "tipo": "amuleto",
+      "posicion": 7,
+      "efecto": "protección",
+      "valor": 5,
+      "descripcion": "Amuleto de protección divina. Reduce el daño recibido en 5 puntos."
+    },
+    {
+      "tipo": "poción",
+      "posicion": 8,
+      "efecto": "cura",
+      "valor": 50,
+      "descripcion": "Poción de curación divina. Restaura 50 puntos de vida."
+    },
+    {
+      "tipo": "veneno",
+      "posicion": 11,
+      "efecto": "veneno",
+      "valor": 15,
+      "descripcion": "Vial de veneno letal. Inflige 15 puntos de daño a todos los enemigos en la habitación."
+    },
+    {
+      "tipo": "botas",
+      "posicion": 12,
+      "efecto": "aumenta_velocidad",
+      "valor": 4,
+      "descripcion": "Botas de velocidad. Aumenta tu velocidad en 4 puntos."
+    }
+  ],
+  
+  "jugador": {
+    "posicion_inicial": 1,
+    "vida_maxima": 100,
+    "vida_actual": 100,
+    "ataque_base": 12,
+    "defensa": 5,
+    "inventario": []
+  }
+}

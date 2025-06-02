@@ -49,7 +49,6 @@ class Director:
             Juego: El juego construido y listo para iniciar.
         """
         try:
-            print(f"Cargando configuración desde {ruta_archivo}...")
             
             # Cargar configuración
             config = self.cargar_desde_json(ruta_archivo)
@@ -61,11 +60,12 @@ class Director:
             self.construir_laberinto(config)
             self.conectar_habitaciones(config.get('puertas', []))
             self.agregar_bichos(config.get('bichos', []))
+            self.agregar_objetos(config.get('objetos', []))
             
             # Asignar el laberinto al juego (el laberinto ya está en self._builder.laberinto)
             self.juego.laberinto = self._builder.laberinto
             
-            print("¡Juego construido exitosamente!")
+            print("BIENVENIDO AL JUEGO DEL LABERINTO CON BICHOS")
             print(f"- Habitaciones: {len(self._habitaciones)}")
             print(f"- Bichos: {len(self._bichos)}")
             
@@ -167,3 +167,28 @@ class Director:
         # Configurar los bichos en el juego
         if hasattr(self.juego, 'bichos'):
             self.juego.bichos = self._bichos
+            
+    def agregar_objetos(self, objetos_config):
+        """
+        Agrega objetos a las habitaciones según la configuración.
+        
+        Args:
+            objetos_config: Lista de configuraciones de objetos.
+        """
+        # Agrupar objetos por habitación
+        objetos_por_habitacion = {}
+        for obj in objetos_config:
+            posicion = obj.get('posicion')
+            if posicion not in objetos_por_habitacion:
+                objetos_por_habitacion[posicion] = []
+            objetos_por_habitacion[posicion].append(obj)
+        
+        # Asignar objetos a las habitaciones correspondientes
+        for num_hab, objetos in objetos_por_habitacion.items():
+            if num_hab in self._habitaciones:
+                # Agregar los objetos a la habitación
+                self._habitaciones[num_hab].objetos = objetos
+                
+                # Si el juego está configurado, también los agregamos al juego
+                if hasattr(self.juego, 'habitacion_actual') and self.juego.habitacion_actual == self._habitaciones[num_hab]:
+                    self.juego.objetos = objetos.copy()

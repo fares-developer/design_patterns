@@ -1,0 +1,161 @@
+{
+  "laberinto": [
+    {"tipo": "habitacion", "num": 1, "descripcion": "Entrada del laberinto"},
+    {"tipo": "habitacion", "num": 2, "descripcion": "Sala de los ecos"},
+    {"tipo": "habitacion", "num": 3, "descripcion": "Cámara de los susurros"},
+    {"tipo": "habitacion", "num": 4, "descripcion": "Pasillo de las sombras"},
+    {"tipo": "habitacion", "num": 5, "descripcion": "Sala del tesoro"},
+    {"tipo": "habitacion", "num": 6, "descripcion": "Cocina abandonada"},
+    {"tipo": "habitacion", "num": 7, "descripcion": "Biblioteca olvidada"},
+    {"tipo": "habitacion", "num": 8, "descripcion": "Sala del trono"},
+    {"tipo": "habitacion", "num": 9, "descripcion": "Cámara del dragón"},
+    {"tipo": "habitacion", "num": 10, "descripcion": "Salida del laberinto"}
+  ],
+  
+  "puertas": [
+    [1, "este", 2, "oeste"],
+    [1, "sur", 4, "norte"],
+    [2, "sur", 3, "norte"],
+    [2, "este", 5, "oeste"],
+    [3, "este", 6, "oeste"],
+    [4, "este", 7, "oeste"],
+    [5, "sur", 8, "norte"],
+    [6, "sur", 9, "norte"],
+    [7, "este", 8, "oeste"],
+    [8, "este", 9, "oeste"],
+    [9, "este", 10, "oeste"]
+  ],
+  
+  "bichos": [
+    {
+      "modo": "Guerrero",
+      "posicion": 2,
+      "vida": 15,
+      "ataque": 4,
+      "descripcion": "Un feroz guerrero con armadura pesada."
+    },
+    {
+      "modo": "Mago",
+      "posicion": 5,
+      "vida": 8,
+      "ataque": 6,
+      "descripcion": "Un poderoso mago que lanza hechizos devastadores."
+    },
+    {
+      "modo": "Troll",
+      "posicion": 3,
+      "vida": 20,
+      "ataque": 3,
+      "descripcion": "Un troll enorme y resistente pero lento."
+    },
+    {
+      "modo": "Esqueleto",
+      "posicion": 6,
+      "vida": 5,
+      "ataque": 2,
+      "descripcion": "Un esqueleto débil pero numeroso."
+    }
+  ],
+  
+  "objetos": [
+    {
+      "tipo": "poción",
+      "posicion": 1,
+      "efecto": "cura",
+      "valor": 10,
+      "descripcion": "Una poción que restaura 10 puntos de vida."
+    },
+    {
+      "tipo": "espada",
+      "posicion": 1,
+      "efecto": "aumenta_ataque",
+      "valor": 3,
+      "descripcion": "Una espada afilada que aumenta tu ataque."
+    },
+    {
+      "tipo": "escudo",
+      "posicion": 1,
+      "efecto": "reduce_daño",
+      "valor": 2,
+      "descripcion": "Un escudo que reduce el daño recibido."
+    },
+    {
+      "tipo": "llave",
+      "posicion": 2,
+      "efecto": "abre_puerta",
+      "puerta": 9,
+      "descripcion": "Una llave antigua que abre una puerta especial."
+    },
+    {
+      "tipo": "poción",
+      "posicion": 2,
+      "efecto": "cura",
+      "valor": 15,
+      "descripcion": "Una poción que restaura 15 puntos de vida."
+    },
+    {
+      "tipo": "mapa",
+      "posicion": 2,
+      "efecto": "revela_laberinto",
+      "descripcion": "Un mapa que revela todas las habitaciones."
+    },
+    {
+      "tipo": "armadura",
+      "posicion": 3,
+      "efecto": "aumenta_defensa",
+      "valor": 5,
+      "descripcion": "Una armadura que aumenta tu defensa."
+    },
+    {
+      "tipo": "poción",
+      "posicion": 3,
+      "efecto": "veneno",
+      "valor": 5,
+      "descripcion": "Un veneno que debilita a los enemigos."
+    },
+    {
+      "tipo": "botas",
+      "posicion": 3,
+      "efecto": "aumenta_velocidad",
+      "valor": 2,
+      "descripcion": "Unas botas que aumentan tu velocidad."
+    },
+    {
+      "tipo": "llave",
+      "posicion": 4,
+      "efecto": "abre_puerta",
+      "puerta": 9,
+      "descripcion": "Una llave antigua que abre una puerta especial."
+    },
+    {
+      "tipo": "poción",
+      "posicion": 4,
+      "efecto": "cura",
+      "valor": 20,
+      "descripcion": "Una poción que restaura 20 puntos de vida."
+    },
+    {
+      "tipo": "amuleto",
+      "posicion": 4,
+      "efecto": "protección",
+      "valor": 3,
+      "descripcion": "Un amuleto que te protege de ataques críticos."
+    },
+    {
+      "tipo": "tesoro",
+      "posicion": 10,
+      "efecto": "victoria",
+      "valor": 100,
+      "descripcion": "¡El tesoro perdido! Has ganado el juego."
+    }
+  ],
+  
+  "jugador": {
+    "posicion_inicial": 1,
+    "vida_maxima": 50,
+    "vida_actual": 50,
+    "ataque_base": 8,
+    "defensa": 3,
+    "inventario": []
+  }
+}

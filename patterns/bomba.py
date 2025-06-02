@@ -87,6 +87,24 @@ class Bomba(DecoratorPared):
         self.nivel_destruccion = 50
         self.activa = False
         print("Bomba configurada como tipo: Destructiva")
+        
+    def entrar(self):
+        """
+        Implementación del método abstracto de ElementoMapa.
+        Se llama cuando el jugador intenta entrar en la pared decorada con la bomba.
+        
+        Returns:
+            bool: True si el jugador puede pasar, False en caso contrario.
+        """
+        if self.activa:
+            try:
+                self.explotar()
+                return True  # Después de explotar, la pared podría ser destruida
+            except ValueError as e:
+                print(f"Error: {e}")
+                return False
+        # Si la bomba no está activa, se comporta como una pared normal
+        return self.pared.entrar()
 
 
 class TipoBomba(ABC):
@@ -101,12 +119,8 @@ class Broma(TipoBomba):
         super().__init__()
 
     def explotar(self):
-        print("Explosión inminente en 3 segundos")
-        self.mostrar_confeti()
-
-    def mostrar_confeti(self):
-        print("Confeti, confeti, confeti")
-        print("Era una broma")
+        print("¡Sorpresa! Era una bomba fumaça.")
+        return "¡Sorpresa! Era una bomba fumaça."
 
 
 class Mina(TipoBomba):
@@ -115,12 +129,9 @@ class Mina(TipoBomba):
         super().__init__()
 
     def explotar(self):
-        print("Explosión inminente en 3 segundos")
-        self.minar()
-
-    def minar(self):
-        print("Lo siento, esta mina va volar a todo el mundo por los aires")
-        print("El mundo va a morir")
+        print("¡Boom! La mina ha explotado.")
+        print("Aplicando radiación...")
+        return "¡Boom! La mina ha explotado."
 
 class Destructiva(TipoBomba):
 
@@ -128,9 +139,6 @@ class Destructiva(TipoBomba):
         super().__init__()
 
     def explotar(self):
-        print("Explosión inminente en 3 segundos")
-        self.aplicar_radiacion()
-
-    def aplicar_radiacion(self):
-        print("Radiación, radiación, radiación")
-        print("Esto va a ser otro Chernobyl")
+        print("¡EXPLOSIÓN MASIVA!")
+        print("Radiación extrema liberada.")
+        return "¡EXPLOSIÓN MASIVA!"
